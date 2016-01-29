@@ -99,6 +99,11 @@
   - measure: count
     type: count
     drill_fields: detail*
+    
+  - measure: count_percent_of_total
+    type: percent_of_total
+    sql: ${count}
+    decimals: 1    
 
 
   # ----- Sets of fields for drilling ------

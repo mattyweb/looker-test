@@ -11,7 +11,7 @@
               , row_number() over(partition by looker_visitor_id order by sent_at) as session_sequence_number
               , lead(sent_at) over(partition by looker_visitor_id order by sent_at) as next_session_start_at
         from ${mapped_events.SQL_TABLE_NAME}
-        where (idle_time_minutes > 30 or idle_time_minutes is null)
+        where (idle_time_minutes > 5000000 or idle_time_minutes is null)  --5000000 minutes = 9.5 years - so one lifetime session per user
             
 
   fields:
@@ -20,6 +20,8 @@
     drill_fields: detail*
 
   - dimension: session_id
+    primary_key: true
+    hidden: true
     sql: ${TABLE}.session_id
 
   - dimension: looker_visitor_id

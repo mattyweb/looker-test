@@ -8,7 +8,9 @@
   
     sql: |
 
-        select t.sent_at 
+        select 
+           t.anonymous_id
+          , t.sent_at 
           , t.event_id
           , t.event
           , t.event_source

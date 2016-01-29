@@ -1,3 +1,4 @@
+- explore: mapped_events
 - view: mapped_events
   derived_table:
     persist_for: 4 hours
@@ -7,25 +8,27 @@
       select *
                 , datediff(minutes, lag(sent_at) over(partition by looker_visitor_id order by sent_at), sent_at) as idle_time_minutes
               from (
-                      select t.id || '-t' as event_id
+                      select t.id as event_id -- || '-t' as event_id
                         , a2v.looker_visitor_id
+                        , t.anonymous_id
                         , t.sent_at
                         , t.event as event
                         , NULL as referrer
                         , 'tracks' as event_source
                       from qa.tracks as t
                       inner join ${aliases_mapping.SQL_TABLE_NAME} as a2v
-                      on a2v.alias = coalesce(t.user_id, t.anonymous_id)
-                      union all
-                      select t.id || '-p' as event_id
-                        , a2v.looker_visitor_id
-                        , t.sent_at
-                        , t.path as event
-                        , t.referrer as referrer
-                        , 'pages' as event_source
-                      from qa.pages as t
-                      inner join ${aliases_mapping.SQL_TABLE_NAME} as a2v
-                      on a2v.alias = coalesce(t.user_id, t.anonymous_id)) as e 
+                      on a2v.alias = coalesce(t.user_id, t.anonymous_id)   )
+                      --union all
+                      --select t.id || '-p' as event_id
+                        --, a2v.looker_visitor_id
+                        --, t.anonymous_id
+                        --, t.sent_at
+                        --, t.path as event
+                        --, t.referrer as referrer
+                        --, 'pages' as event_source
+                      --from qa.pages as t
+                      --inner join ${aliases_mapping.SQL_TABLE_NAME} as a2v
+                      --on a2v.alias = coalesce(t.user_id, t.anonymous_id)) as e 
                       
 
   fields:

@@ -83,7 +83,7 @@
     type: string
     sql: ${TABLE}.issue_id
 
-  - dimension: issue_name
+  - dimension: issue_name           # Use this with funnel to see interesting stuff
     type: string
     sql: ${TABLE}.issue_name
 
