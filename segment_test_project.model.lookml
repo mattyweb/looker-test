@@ -63,3 +63,16 @@
 
 - explore: users
 
+- explore: sessions_pg_trk
+  view_label: sessions
+  label: Sessions
+  joins: 
+    - join: session_pg_trk_facts
+      view_label: sessions
+      foreign_key: session_id
+      relationship: one_to_one
+    
+#     - join: user_session_facts
+#       view_label: users
+#       foreign_key: looker_visitor_id
+
